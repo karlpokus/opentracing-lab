@@ -8,7 +8,7 @@ const server = http.createServer();
 const PORT = process.env.PORT || 9112;
 const userCredentials = require('./lib/auth');
 const success = res => {
-	log('success');
+	log('ok');
 	res.writeHead(200);
 	res.end('ok');
 };
