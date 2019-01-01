@@ -1,30 +1,59 @@
-# OpenTracing Tutorials
+# opentracing lab
+Experimenting with the open tracing api and adding some metrics.
 
-A collection of tutorials for the OpenTracing API (https://opentracing.io).
+# wat?
+We have 3 http services; A main api service that authenticates request via an auth service and if successful calls the pets service. Both the auth service and pets use mongodb for persistance.
 
-## Prerequisites
+The plan is to add tracing with jaeger and metrics with prometheus and grafana.
 
-The tutorials are using CNCF Jaeger (https://jaegertracing.io) as the tracing backend.
-For this tutorial, we'll start Jaeger via Docker with the default in-memory storage, exposing only the required ports. We'll also enable "debug" level logging:
+# requirements
+- jaeger
+- mongodb
+- prometheus
+- grafana
+- pm2 for process management, unified logging and watch bin and restart
+- chokidar for watch src and build
 
+# usage
+Run everything
+```bash
+$ pm2 start pm2.config.js && pm2 logs
+$ ./watch-rebuild.sh
 ```
-docker run \
-  --rm \
-  -p 6831:6831/udp \
-  -p 6832:6832/udp \
-  -p 16686:16686 \
-  jaegertracing/all-in-one:1.7 \
-  --log-level=debug
+Make a request
+```bash
+$ curl -i -u user:pwd [-d '{"key":"value"}'] host:port/path
+```
+HTTP api
+```
+GET /api/pet?name=<name>
+	returns pet by name
+GET /api/pets
+	returns all pets
+GET /api/pets/types (WIP)
+	returns pet types
+POST /api/pet/add {name: string, type: string, born: YYYY-MM-DDTHH:MM:SSZ}
+	adds a pet
+```
+ports
+```bash
+api 9111
+auth 9112
+pets 9113
+jaeger 16686
 ```
 
-Alternatively, Jaeger can be downloaded as a binary called `all-in-one` for different platforms from https://jaegertracing.io/download/.
+# todos
+- [x] api
+- [x] auth
+- [x] pets
+- [ ] collect metrics with prometheus
+- [ ] pass ctx to rpc calls
+- [ ] add debug logs
+- [x] add supervisord or pm2
+- [x] watch, rebuild, restart for dev
+- [x] shared logs
+- [ ] shared config file
 
-Once the backend starts, the Jaeger UI will be accessible at http://localhost:16686.
-
-## Tutorials by Language
-
-  * [C# tutorial](./csharp/)
-  * [Go tutorial](./go/)
-  * [Java tutorial](./java)
-  * [Python tutorial](./python)
-  * [Node.js tutorial](./nodejs)
+# license
+MIT
