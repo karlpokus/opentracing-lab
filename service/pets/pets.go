@@ -4,6 +4,7 @@ import (
 	"time"
 	"context"
 	"encoding/json"
+	"io"
 	"github.com/mongodb/mongo-go-driver/mongo"
 	"github.com/mongodb/mongo-go-driver/bson"
 )
@@ -14,7 +15,7 @@ type Pet struct {
 	Born time.Time
 }
 
-func findPet(c *mongo.Collection, petName string) ([]byte, error) {
+func findOnePet(c *mongo.Collection, petName string) ([]byte, error) {
 	var p Pet
 	ctx, _ := context.WithTimeout(context.Background(), 5 * time.Second)
 	filter := bson.M{"name": petName}
@@ -55,4 +56,18 @@ func findAllPets(c *mongo.Collection) ([]byte, error) {
 		return nil, err
 	}
 	return b, nil
+}
+
+func addOnePet(c *mongo.Collection, rBody io.ReadCloser) error {
+	var p Pet
+	if err := json.NewDecoder(rBody).Decode(&p); err != nil {
+		return err
+	}
+
+	ctx, _ := context.WithTimeout(context.Background(), 5 * time.Second)
+	_, err := c.InsertOne(ctx, p)
+	if err != nil {
+		return err
+	}
+	return nil
 }
