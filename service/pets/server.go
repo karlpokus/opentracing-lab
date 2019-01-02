@@ -84,9 +84,9 @@ func main() {
 
 	env := &Env{pets: client.Database("pets").Collection("pets")}
 
-	http.HandleFunc("/api/pet", env.findOnePetHandler);
-	http.HandleFunc("/api/pets", env.findAllPetsHandler);
-	http.HandleFunc("/api/pet/add", env.addOnePetHandler)
+	http.HandleFunc("/pet", env.findOnePetHandler);
+	http.HandleFunc("/pets", env.findAllPetsHandler);
+	http.HandleFunc("/pet/add", env.addOnePetHandler)
 
 	stdout.Print("listening on port 9113")
 	stderr.Fatal(http.ListenAndServe(":9113", requestLogger.Log(stdout, http.DefaultServeMux)))

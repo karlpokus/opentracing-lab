@@ -30,8 +30,6 @@ GET /api/pet?name=<name>
 	returns pet by name
 GET /api/pets
 	returns all pets
-GET /api/pets/types (WIP)
-	returns pet types
 POST /api/pet/add {name: string, type: string, born: YYYY-MM-DDTHH:MM:SSZ}
 	adds a pet
 ```

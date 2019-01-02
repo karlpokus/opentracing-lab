@@ -14,7 +14,7 @@ var httpClient = &http.Client{
 }
 
 func findOnePet(petName string) ([]byte, error) {
-	url := "http://localhost:9113/api/pet"
+	url := "http://localhost:9113/pet"
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
@@ -32,21 +32,7 @@ func findOnePet(petName string) ([]byte, error) {
 }
 
 func findAllPets() ([]byte, error) {
-	url := "http://localhost:9113/api/pets"
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	res, err := httpDo(req)
-	if err != nil {
-		return nil, err
-	}
-	return res, nil
-}
-
-func getPetTypes() ([]byte, error) {
-	url := "http://localhost:9113/api/pets/types"
+	url := "http://localhost:9113/pets"
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
@@ -60,7 +46,7 @@ func getPetTypes() ([]byte, error) {
 }
 
 func addOnePet(rBody io.ReadCloser) ([]byte, error) {
-	url := "http://localhost:9113/api/pet/add"
+	url := "http://localhost:9113/pet/add"
 	req, err := http.NewRequest("POST", url, rBody) // if body is also an io.Closer then client.Do will close it
 	if err != nil {
 		return nil, err
