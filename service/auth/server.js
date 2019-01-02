@@ -57,7 +57,7 @@ mongo.connect(mongoConnString, mongoConnOpts)
 	.then(mongoClient => {
 		log(`connected to ${ mongoConnString }`);
 		process.on('SIGINT', exit.bind(null, mongoClient));
-		return Promise.resolve(mongoClient.db('pets').collection('users'));
+		return mongoClient.db('pets').collection('users');
 	})
 	.then(startServer)
 	.catch(err => {
