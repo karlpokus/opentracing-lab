@@ -26,11 +26,11 @@ $ curl -i -u user:pwd [-d '{"key":"value"}'] host:port/path
 ```
 HTTP api
 ```
-GET /api/pet?name=<name>
+GET /api/pet/:name
 	returns pet by name
 GET /api/pets
 	returns all pets
-POST /api/pet/add {name: string, type: string, born: YYYY-MM-DDTHH:MM:SSZ}
+POST /api/pets/add {name: string, type: string, born: YYYY-MM-DDTHH:MM:SSZ}
 	adds a pet
 ```
 ports
@@ -52,6 +52,7 @@ jaeger 16686
 - [x] watch, rebuild, restart for dev
 - [x] shared logs
 - [ ] shared config file
+- [x] better service structure
 
 # license
 MIT
