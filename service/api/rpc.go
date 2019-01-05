@@ -13,45 +13,12 @@ var httpClient = &http.Client{
 	Transport: &http.Transport{},
 }
 
-func findOnePet(petName string) ([]byte, error) {
-	url := "http://localhost:9113/pet"
-	req, err := http.NewRequest("GET", url, nil)
+func httpReq(method string, path string, body io.ReadCloser) ([]byte, error) {
+	url := "http://localhost:9113" + path
+	req, err := http.NewRequest(method, url, body) // if body is also an io.Closer then client.Do will close it
 	if err != nil {
 		return nil, err
 	}
-
-	q := req.URL.Query()
-	q.Set("name", petName)
-	req.URL.RawQuery = q.Encode()
-
-	res, err := httpDo(req)
-	if err != nil {
-		return nil, err
-	}
-	return res, nil
-}
-
-func findAllPets() ([]byte, error) {
-	url := "http://localhost:9113/pets"
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	res, err := httpDo(req)
-	if err != nil {
-		return nil, err
-	}
-	return res, nil
-}
-
-func addOnePet(rBody io.ReadCloser) ([]byte, error) {
-	url := "http://localhost:9113/pet/add"
-	req, err := http.NewRequest("POST", url, rBody) // if body is also an io.Closer then client.Do will close it
-	if err != nil {
-		return nil, err
-	}
-
 	res, err := httpDo(req)
 	if err != nil {
 		return nil, err
